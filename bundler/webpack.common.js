@@ -2,6 +2,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
+const webpack = require('webpack');
 
 module.exports = {
     entry: path.resolve(__dirname, '../src/main.ts'),
@@ -20,9 +21,18 @@ module.exports = {
             minify: true,
         }),
         new MiniCSSExtractPlugin(),
+        new webpack.ProvidePlugin({
+            Buffer: ['buffer', 'Buffer'],
+        }),
+        new webpack.ProvidePlugin({
+            process: 'process/browser',
+        }),
     ],
     resolve: {
-        extensions: ['.ts', '.js', '.json']
+        extensions: ['.ts', '.js', '.json'],
+        alias: {
+            buffer: 'buffer',
+        },
     },
     module: {
         rules: [
@@ -49,7 +59,7 @@ module.exports = {
             // CSS
             {
                 test: /\.css$/,
-                use: [MiniCSSExtractPlugin.loader, 'css-loader'],
+                use: [MiniCSSExtractPlugin.loader, 'css-loader', 'postcss-loader'],
             },
 
             // Images
@@ -61,6 +71,15 @@ module.exports = {
                 },
             },
 
+            // Media
+            {
+                test: /\.(mp3)$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'assets/media/[hash][ext]',
+                },
+            },
+
             // Fonts
             {
                 test: /\.(ttf|eot|woff|woff2)$/,
@@ -68,6 +87,12 @@ module.exports = {
                 generator: {
                     filename: 'assets/fonts/[hash][ext]',
                 },
+            },
+            // Shaders
+            {
+                test: /\.(glsl|frag|vert)$/,
+                exclude: /node_modules/,
+                use: ['raw-loader'],
             },
         ],
     },

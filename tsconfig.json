@@ -16,7 +16,12 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./src",
+    
   },
   "include": ["./src"],
+  "exclude": [
+    "node_modules"
+  ]
 }
