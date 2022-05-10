@@ -1,4 +1,4 @@
-import { EventEmitter } from '../../Utils/EventEmitter'
+import { EventEmitter } from './EventEmitter'
 
 class Time extends EventEmitter {
     start: number

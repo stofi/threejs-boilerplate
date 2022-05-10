@@ -1,14 +1,17 @@
-import type Resources from '../Utils/Resources'
-
 import * as THREE from 'three'
 import Experience from '../Experience'
 import Environment from './Environment'
+import type Resources from '../Utils/Resources'
+
+import Plane from './Objects/Plane'
+import type Base from './Objects/Base'
 
 class World {
     experience: Experience
     scene: THREE.Scene
     resources: Resources
     environment?: Environment
+    objects: Base[] = []
 
     constructor() {
         this.experience = new Experience()
@@ -20,14 +23,19 @@ class World {
 
     private onReady() {
         this.environment = new Environment()
+        this.addObjects()
+    }
+
+    addObjects() {
+        this.objects.push(new Plane())
     }
 
     resize() {
-        // noop
+        this.objects.forEach((object) => object.resize())
     }
 
     update() {
-        // noop
+        this.objects.forEach((object) => object.update())
     }
 }
 export default World

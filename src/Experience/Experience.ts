@@ -27,19 +27,22 @@ class Experience {
 
     constructor(canvas?: HTMLCanvasElement) {
         if (instance) return instance
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         instance = this
 
         if (!canvas) throw new Error('Experience requires a canvas element')
 
         this.canvas = canvas
+        this.gui = new gui.GUI()
         this.sizes = new Sizes()
         this.time = new Time()
         this.scene = new THREE.Scene()
         this.resources = new Resources(sources)
-        this.camera = new Camera()
+        this.camera = new Camera({
+            controls: 'orbit',
+        })
         this.world = new World()
         this.renderer = new Renderer()
-        this.gui = new gui.GUI()
         this.gui.close()
         // if not #debug destroy the gui
         if (
@@ -66,6 +69,7 @@ class Experience {
     }
 
     private update() {
+        this.camera.update()
         this.renderer.update()
         this.world.update()
     }

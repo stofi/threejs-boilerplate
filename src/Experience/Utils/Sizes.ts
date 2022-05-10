@@ -1,4 +1,4 @@
-import { EventEmitter } from '../../Utils/EventEmitter'
+import { EventEmitter } from './EventEmitter'
 
 class Sizes extends EventEmitter {
     width!: number

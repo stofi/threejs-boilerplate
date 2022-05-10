@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 
-import { EventEmitter } from '../../Utils/EventEmitter'
+import { EventEmitter } from './EventEmitter'
 
 type AssetType = 'texture' | 'environmentTexture' | 'gltf'
 

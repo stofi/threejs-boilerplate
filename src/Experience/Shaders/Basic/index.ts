@@ -2,8 +2,9 @@ import fragment from './fragment.glsl'
 import vertex from './vertex.glsl'
 
 const BasicShader = {
-    fragment,
-    vertex,
+    uniforms: {},
+    fragmentShader: fragment,
+    vertexShader: vertex,
 }
 
 export default BasicShader
