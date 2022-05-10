@@ -41,16 +41,6 @@ class Renderer {
         this.setInstance()
     }
 
-    // private setInstance() {
-    //     this.instance = new THREE.WebGLRenderer({
-    //         canvas: this.canvas,
-    //         antialias: true,
-    //         alpha: true,
-    //     })
-    //     this.instance.setPixelRatio(this.sizes.pixelRatio)
-    //     this.instance.setSize(this.sizes.width, this.sizes.height)
-    // }
-
     private setInstance() {
         this.instance = new THREE.WebGLRenderer({
             canvas: this.canvas,
@@ -96,6 +86,7 @@ class Renderer {
         this.effects.addPass(this.processingPass)
 
         this.instance.setClearColor(0x000000, 0)
+        this.turnOffEffects()
         this.setGUI()
     }
     turnOffEffects() {
@@ -111,16 +102,25 @@ class Renderer {
         this.outputPass.enabled = true
     }
     setGUI() {
-        //
+        this.gui.add(this.renderPass, 'enabled').name('Rewnder Pass')
+        this.gui.add(this.blendPass, 'enabled').name('Blend Pass')
+        this.gui
+            .add(this.blendPass.uniforms.mixRatio, 'value', 0, 0.99)
+            .name('Blend Ratio')
+        this.gui.add(this.savePass, 'enabled').name('Save Pass')
+        this.gui.add(this.outputPass, 'enabled').name('Output Pass')
+        this.gui.add(this.processingPass, 'enabled').name('Post-processing')
     }
 
     resize() {
         this.instance.setPixelRatio(this.sizes.pixelRatio)
         this.instance.setSize(this.sizes.width, this.sizes.height)
+        this.effects.setPixelRatio(this.sizes.pixelRatio)
+        this.effects.setSize(this.sizes.width, this.sizes.height)
     }
 
     update() {
-        this.instance.render(this.scene, this.camera.instance)
+        this.effects.render()
     }
 }
 
